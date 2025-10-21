@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Halal Fresh N Fast – Secure Checkout</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    :root{--green:#0e5a2a;--orange:#ff7a00;--cream:#fef9f5;--ink:#0f172a;--muted:#6b7280;--border:#e5e7eb;--shadow:0 12px 28px rgba(0,0,0,.10)}
+    body{background:var(--cream);font-family:Inter,system-ui,Arial,sans-serif;color:var(--ink)}
+    .wrap{max-width:1100px;margin:28px auto;padding:0 16px}
+    .checkout{display:grid;grid-template-columns:1.25fr .85fr;gap:22px}
+    @media (max-width:980px){.checkout{grid-template-columns:1fr}}
+    .card{background:#fff;border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow)}
+    .card .hd{padding:18px 18px 0}.card .bd{padding:18px}
+    .hd h2{margin:0;font-size:1.25rem;color:var(--green)}.subtle{color:var(--muted);font-size:.92rem}
+    table{width:100%;border-collapse:collapse}th,td{padding:12px;border-bottom:1px solid #f1f5f9;text-align:left}
+    th{font-size:.9rem;color:#475569}
+    .qtyctrl{display:inline-flex;align-items:center;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+    .qtyctrl button{background:#fff;border:0;width:34px;height:34px;font-weight:800;cursor:pointer}
+    .qtyctrl input{width:48px;text-align:center;border:0}
+    .rm{background:#fff;border:1px solid var(--border);border-radius:10px;padding:6px 10px;cursor:pointer}
+    .summary{position:sticky;top:16px}.sum-row{display:flex;justify-content:space-between;margin:6px 0}.sep{height:1px;background:#eef2f7;margin:10px 0}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:12px;font-weight:800;border:0;cursor:pointer;transition:transform .15s}
+    .btn-primary{background:var(--orange);color:#111;box-shadow:var(--shadow)}.btn:disabled{opacity:.55;cursor:not-allowed}
+    input[type="text"],input[type="tel"],input[type="datetime-local"]{width:100%;padding:12px;border:1px solid var(--border);border-radius:10px;font-size:1rem;background:#fff}
+    .status{margin-top:12px;font-weight:800}.ok{color:#0b7a32}.err{color:#b42318}
+    .grid2{display:grid;grid-template-columns:2fr 1fr;gap:10px}
+    .fade{animation:fade .28s ease both}@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html">
+        <img class="brand-logo" src="images/logo.jpeg" alt="Halal Fresh N Fast">
+        <span class="brand-text">Halal Fresh N Fast</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="menu.html">Menu</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="checkout">
+      <!-- LEFT -->
+      <section class="card fade">
+        <div class="hd">
+          <h2>Your Cart</h2>
+          <p class="subtle">Review your items, adjust quantities, then pay securely.</p>
+        </div>
+        <div class="bd">
+          <div style="overflow:auto;border:1px solid var(--border);border-radius:14px">
+            <table aria-label="Cart">
+              <thead>
+                <tr><th style="min-width:220px">Item</th><th>Qty</th><th>Each</th><th>Line</th><th></th></tr>
+              </thead>
+              <tbody id="cartBody"></tbody>
+              <tfoot>
+                <tr><td colspan="3"><strong>Subtotal</strong></td><td id="subtotalCell">$0.00</td><td></td></tr>
+              </tfoot>
+            </table>
+          </div>
+
+          <div class="row" style="margin-top:12px;gap:10px">
+            <a class="btn" href="menu.html" style="border:1px solid var(--border)">← Add more items</a>
+            <button id="clearCart" class="btn" type="button" style="border:1px solid var(--border)">Clear cart</button>
+          </div>
+
+          <!-- Order type -->
+          <fieldset style="margin-top:16px">
+            <legend class="subtle">Order Type</legend>
+            <label><input type="radio" name="fulfillType" value="pickup" checked> Pickup</label>
+            <label style="margin-left:16px"><input type="radio" name="fulfillType" value="delivery"> Delivery</label>
+          </fieldset>
+
+          <!-- Customer info -->
+          <div class="row" style="margin-top:12px;gap:12px;flex-wrap:wrap">
+            <div style="flex:1">
+              <label class="subtle">Full Name</label>
+              <input id="name" type="text" placeholder="Your full name" autocomplete="name"/>
+            </div>
+            <div style="flex:1">
+              <label class="subtle">Phone</label>
+              <input id="phone" type="tel" placeholder="555-123-4567" autocomplete="tel"/>
+            </div>
+          </div>
+
+          <!-- Pickup time (optional) -->
+          <div id="pickupRow" style="margin-top:12px">
+            <label class="subtle">Pickup Time (optional)</label>
+            <input id="pickup" type="datetime-local"/>
+          </div>
+
+          <!-- Delivery address (hidden unless delivery) -->
+          <div id="deliveryFields" style="display:none;margin-top:12px">
+            <label class="subtle">Delivery Address</label>
+            <input id="addr1" type="text" placeholder="Street address"/>
+            <div class="grid2" style="margin-top:10px">
+              <input id="city" type="text" placeholder="City"/>
+              <input id="state" type="text" placeholder="State (e.g., NY)"/>
+            </div>
+            <div style="margin-top:10px">
+              <input id="zip" type="text" placeholder="ZIP code"/>
+            </div>
+            <p class="subtle" style="margin:8px 0 0">Delivery fee may apply.</p>
+          </div>
+
+          <!-- Payment -->
+          <div style="margin-top:18px">
+            <h3 style="margin:0 0 8px">Payment</h3>
+            <div id="card-container"></div>
+            <button id="pay" class="btn btn-primary" type="button" disabled>Pay Now</button>
+            <div id="status" class="status" role="status" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT -->
+      <aside class="card summary fade">
+        <div class="hd"><h2>Order Summary</h2></div>
+        <div class="bd">
+          <div id="summaryList" class="subtle"></div>
+          <div class="sep"></div>
+          <div class="sum-row"><span>Subtotal</span><span id="sumSubtotal">$0.00</span></div>
+          <div class="sum-row subtle"><span>Sales tax</span><span>Calculated at payment</span></div>
+          <div class="sep"></div>
+          <div class="sum-row"><strong>Total charged</strong><strong>Shown after card</strong></div>
+          <p class="subtle" style="margin-top:10px">Tax and final amount are calculated on our server.</p>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Cart module -->
+  <script type="module">
+    import { getCart, setQty, removeItem, clearCart, subtotalCents, money } from './js/cart.js';
+
+    const cartBody = document.getElementById('cartBody');
+    const subtotalCell = document.getElementById('subtotalCell');
+    const summaryList = document.getElementById('summaryList');
+    const sumSubtotal = document.getElementById('sumSubtotal');
+    const clearBtn = document.getElementById('clearCart');
+
+    function render() {
+      const cart = getCart();
+      cartBody.innerHTML = cart.map((row, i) => {
+        const line = row.priceCents * row.qty;
+        return `
+          <tr>
+            <td>${row.name}</td>
+            <td>
+              <div class="qtyctrl">
+                <button type="button" data-dec="${i}">−</button>
+                <input type="number" min="1" value="${row.qty}" data-ix="${i}" aria-label="Quantity for ${row.name}">
+                <button type="button" data-inc="${i}">+</button>
+              </div>
+            </td>
+            <td>${money(row.priceCents)}</td>
+            <td>${money(line)}</td>
+            <td><button class="rm" type="button" data-rm="${i}">Remove</button></td>
+          </tr>
+        `;
+      }).join('') || `<tr><td colspan="5" class="subtle">Your cart is empty. <a href="menu.html">Add items</a></td></tr>`;
+
+      const sub = subtotalCents();
+      subtotalCell.textContent = money(sub);
+      sumSubtotal.textContent = money(sub);
+
+      summaryList.innerHTML = cart.length
+        ? cart.map(i => `<div class="sum-row"><span>${i.qty} × ${i.name}</span><span>${money(i.qty*i.priceCents)}</span></div>`).join('')
+        : '<p class="subtle">No items.</p>';
+
+      cartBody.querySelectorAll('[data-dec]').forEach(b => b.onclick = () => { setQty(+b.dataset.dec, getCart()[+b.dataset.dec].qty - 1); render(); });
+      cartBody.querySelectorAll('[data-inc]').forEach(b => b.onclick = () => { setQty(+b.dataset.inc, getCart()[+b.dataset.inc].qty + 1); render(); });
+      cartBody.querySelectorAll('[data-ix]').forEach(inp => inp.onchange = () => { setQty(+inp.dataset.ix, parseInt(inp.value||'1',10)); render(); });
+      cartBody.querySelectorAll('[data-rm]').forEach(b => b.onclick = () => { removeItem(+b.dataset.rm); render(); });
+    }
+
+    clearBtn.onclick = () => { clearCart(); render(); };
+
+    // Toggle pickup/delivery UI
+    const deliverFields = document.getElementById('deliveryFields');
+    const pickupRow = document.getElementById('pickupRow');
+    document.querySelectorAll('input[name="fulfillType"]').forEach(r=>{
+      r.addEventListener('change', ()=>{
+        const isDelivery = r.value==='delivery' && r.checked;
+        deliverFields.style.display = isDelivery ? 'block':'none';
+        pickupRow.style.display = isDelivery ? 'none':'block';
+      });
+    });
+
+    window.addEventListener('cart:update', render);
+    window.addEventListener('storage', e => { if (e.key === 'hfnf_cart_v1') render(); });
+    render();
+  </script>
+
+  <!-- Backend base URL for Render -->
+  <script>
+    // 👇 Your live backend (Render) URL
+    const API_BASE = "https://halalfreshnfast-1.onrender.com";
+  </script>
+
+  <!-- Payments + POST to Render API -->
+  <script>
+    let SQUARE_CFG = null;
+
+    async function loadConfigAndSDK() {
+      const resp = await fetch(`${API_BASE}/api/config`, { headers: { 'Accept': 'application/json' } });
+      if (!resp.ok) throw new Error(`Config HTTP ${resp.status}`);
+      const ct = resp.headers.get('content-type') || '';
+      if (!ct.includes('application/json')) throw new Error('Config was not JSON');
+      SQUARE_CFG = await resp.json();
+
+      const isProd = (SQUARE_CFG.env || '').toLowerCase() === 'production';
+      const src = isProd ? 'https://web.squarecdn.com/v1/square.js'
+                         : 'https://sandbox.web.squarecdn.com/v1/square.js';
+      await new Promise((res, rej) => {
+        const s = document.createElement('script');
+        s.src = src; s.onload = res; s.onerror = () => rej(new Error('Failed to load Square SDK'));
+        document.head.appendChild(s);
+      });
+    }
+
+    (async function initPayments(){
+      const statusEl = document.getElementById('status');
+      const payBtn = document.getElementById('pay');
+
+      try {
+        await loadConfigAndSDK();
+        const payments = window.Square.payments(SQUARE_CFG.applicationId, SQUARE_CFG.locationId);
+        const card = await payments.card();
+        await card.attach('#card-container');
+        payBtn.disabled = false;
+
+        payBtn.addEventListener('click', async () => {
+          statusEl.className='status'; statusEl.textContent='Processing…';
+
+          try{
+            const cart = JSON.parse(localStorage.getItem('hfnf_cart_v1') || '[]');
+            if (!cart.length) throw new Error('Your cart is empty.');
+
+            const name  = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            if (!name)  throw new Error('Please enter your full name.');
+            if (!phone) throw new Error('Please enter your phone number.');
+
+            const fulfillType = (document.querySelector('input[name="fulfillType"]:checked')?.value || 'pickup');
+            const pickupRaw   = document.getElementById('pickup').value.trim();
+            const pickupTime  = (fulfillType==='pickup' && pickupRaw) ? new Date(pickupRaw).toISOString() : undefined;
+
+            // Delivery validation
+            let address = null;
+            if (fulfillType === 'delivery') {
+              const addr1 = document.getElementById('addr1').value.trim();
+              const city  = document.getElementById('city').value.trim();
+              const state = document.getElementById('state').value.trim();
+              const zip   = document.getElementById('zip').value.trim();
+              if (!addr1 || !city || !state || !zip) throw new Error('Please enter full delivery address.');
+              address = { address_line_1: addr1, locality: city, administrative_district_level_1: state, postal_code: zip, country: 'US' };
+            }
+
+            const t = await card.tokenize();
+            if (t.status !== 'OK') throw new Error(t.errors?.[0]?.message || 'Card tokenization failed');
+
+            const payload = {
+              cart: cart.map(({name, qty}) => ({ name, qty })),
+              contact: { name, phone },
+              pickupTime,
+              fulfillment: fulfillType,     // 'pickup' or 'delivery'
+              address,                       // Square address object (if delivery)
+              paymentToken: t.token
+            };
+
+            const res = await fetch(`${API_BASE}/api/checkout`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+
+            let json;
+            const resCT = res.headers.get('content-type') || '';
+            if (resCT.includes('application/json')) json = await res.json();
+            else json = { success:false, error:`Checkout HTTP ${res.status}` };
+
+            if (!json.success) throw new Error(json.error || 'Payment failed');
+
+            statusEl.className='status ok';
+            statusEl.textContent='✅ Payment successful! Order #'+json.orderId;
+
+            localStorage.setItem('hfnf_cart_v1', '[]');
+            window.dispatchEvent(new CustomEvent('cart:update', { detail: { cart: [] }}));
+          } catch (err) {
+            statusEl.className='status err';
+            statusEl.textContent='❌ ' + err.message;
+          }
+        });
+      } catch (err) {
+        statusEl.className='status err';
+        statusEl.textContent='❌ Init error: ' + err.message;
+      }
+    })();
+  </script>
+</body>
+</html>
