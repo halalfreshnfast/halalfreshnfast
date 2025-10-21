@@ -201,7 +201,7 @@
 
   <!-- Backend base URL for Render -->
   <script>
-    // 👇 Your live backend (Render) URL
+    /* Your live backend (Render) URL */
     const API_BASE = "https://halalfreshnfast-1.onrender.com";
   </script>
 
@@ -253,8 +253,8 @@
             const pickupRaw   = document.getElementById('pickup').value.trim();
             const pickupTime  = (fulfillType==='pickup' && pickupRaw) ? new Date(pickupRaw).toISOString() : undefined;
 
-            // Delivery validation
-            let address = null;
+            // Build address only if delivery
+            let address;
             if (fulfillType === 'delivery') {
               const addr1 = document.getElementById('addr1').value.trim();
               const city  = document.getElementById('city').value.trim();
@@ -267,12 +267,13 @@
             const t = await card.tokenize();
             if (t.status !== 'OK') throw new Error(t.errors?.[0]?.message || 'Card tokenization failed');
 
+            // ✅ Only include "address" in the payload when it’s delivery
             const payload = {
               cart: cart.map(({name, qty}) => ({ name, qty })),
               contact: { name, phone },
               pickupTime,
-              fulfillment: fulfillType,     // 'pickup' or 'delivery'
-              address,                       // Square address object (if delivery)
+              fulfillment: fulfillType,
+              ...(fulfillType === 'delivery' ? { address } : {}),
               paymentToken: t.token
             };
 
