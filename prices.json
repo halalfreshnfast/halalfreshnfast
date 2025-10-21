@@ -1,0 +1,73 @@
+{
+    "Chicken Over Rice": 999,
+    "Fish Over Rice": 999,
+    "Lamb And Chicken Over Rice": 1099,
+    "Lamb Over Rice": 1099,
+    "Chicken and Lamb Shawarma": 799,
+    "Chicken Shawarma": 799,
+    "Chicken Tikka Roll": 799,
+    "Kabab Roll": 799,
+  
+    "Beef Burger": 699,
+    "Beef Burger Combo": 999,
+    "Chicken Burger": 599,
+    "Chicken Burger Combo": 899,
+    "Fish Burger": 599,
+    "Fish Burger Combo": 899,
+    "Zinger Burger": 599,
+    "Zinger Burger Combo": 899,
+  
+    "Small Fries": 299,
+    "Medium Fries": 399,
+    "Large Fries": 499,
+  
+    "Chicken with Bone (10 pc)": 1899,
+    "Chicken with Bone (3 pc combo)": 999,
+    "Chicken with Bone (3 pc)": 599,
+    "Chicken with Bone (5 pc)": 999,
+    "Chicken Nuggets (5 pc)": 599,
+    "Chicken Nuggets Combo": 999,
+    "Chicken Tender (3 pc)": 599,
+    "Chicken Tender Combo": 999,
+  
+    "16 OZ Mango Lassi": 399,
+    "16 OZ Salt Lassi": 399,
+    "16 OZ Strawberry Lassi": 399,
+    "16 OZ Sweet Lassi": 399,
+    "Soda Can": 150,
+    "Water Bottle": 100,
+  
+    "BBQ Wings (5 pc)": 899,
+    "Buffalo Wings (5 pc)": 899,
+    "Garlic Parmesan Wings (5 pc)": 899,
+    "Honey Wings (5 pc)": 899,
+  
+    "Chicken Kabab": 250,
+    "Chicken Tikka Boti (5 pc)": 699,
+    "Tandoor Chicken leg (1 pc)": 499,
+    "Tandoor Chicken leg (2 pc)": 899,
+  
+    "Rice Pudding": 499,
+    
+
+  
+    "Cheese Pizza (Small)": 999,
+    "Cheese Pizza (Medium)": 1299,
+    "Cheese Pizza (Large)": 1499,
+    "Cheese Pizza (Extra Large)": 1799,
+  
+    "Veggie Pizza (Small)": 1199,
+    "Veggie Pizza (Medium)": 1499,
+    "Veggie Pizza (Large)": 1799,
+    "Veggie Pizza (Extra Large)": 2099,
+  
+    "Buffalo Chicken Pizza (Small)": 1199,
+    "Buffalo Chicken Pizza (Medium)": 1499,
+    "Buffalo Chicken Pizza (Large)": 1799,
+    "Buffalo Chicken Pizza (Extra Large)": 2099,
+  
+    "Pizza Topping (Small)": 100,
+    "Pizza Topping (Medium)": 150,
+    "Pizza Topping (Large)": 150,
+    "Pizza Topping (Extra Large)": 200
+  }

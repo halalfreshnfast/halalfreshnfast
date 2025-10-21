@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Halal Fresh N Fast — Fresh • Fast • Halal</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <!-- Base styles (your site stylesheet) -->
+  <link rel="stylesheet" href="css/style.css"/>
+
+  <style>
+    :root{
+      --green:#0e5a2a; --orange:#ff7a00; --ink:#0f172a;
+      --cream:#fff8ef; --border:#e9eef3; --muted:#6b7280;
+      --shadow:0 20px 60px rgba(0,0,0,.18);
+      --glow:0 16px 40px rgba(14,90,42,.2);
+    }
+
+    body{background:var(--cream); color:var(--ink); font-family:Inter, system-ui, Arial, sans-serif}
+
+    /* Header */
+    .site-header{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--border)}
+    .site-header .nav{display:flex;align-items:center;justify-content:space-between;max-width:1180px;margin:auto;padding:12px 18px}
+    .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+    .brand-logo{height:42px;width:42px;border-radius:10px;object-fit:cover}
+    .brand-text{font-weight:900;letter-spacing:.2px}
+    .nav-links{display:flex;gap:14px;align-items:center}
+    .nav-links a{color:#0f172a;text-decoration:none;font-weight:700}
+    .nav-links .order{background:var(--orange);color:#111;padding:10px 14px;border-radius:10px;box-shadow:var(--shadow)}
+
+    /* Hero */
+    .hero{
+      position:relative; overflow:hidden; min-height:76vh;
+      display:grid; place-items:center; text-align:center;
+      background:
+        radial-gradient(1200px 600px at 10% -10%, #ffe9d3 0%, transparent 60%),
+        radial-gradient(1000px 600px at 90% 10%, #eaffef 0%, transparent 60%),
+        linear-gradient(180deg, #ffffff 0%, #fff7ee 60%, #fff4e6 100%);
+    }
+    .hero-inner{position:relative;z-index:2;max-width:1120px;margin:0 auto;padding:56px 18px}
+    .hero-badge{font-family:"Great Vibes", cursive; font-size:38px; color:var(--green); opacity:.9; margin-bottom:8px}
+    .hero-title{font-size:clamp(36px, 6vw, 72px); line-height:1.02; font-weight:900; letter-spacing:-.02em; margin:0}
+    .hero-sub{max-width:740px;margin:16px auto 28px;color:var(--muted);font-size:1.1rem}
+    .hero-cta{display:flex; gap:12px; justify-content:center; flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:10px; padding:14px 18px; border-radius:12px; font-weight:900; text-decoration:none; cursor:pointer; border:0}
+    .btn-primary{background:var(--orange); color:#111; box-shadow:var(--shadow)}
+    .btn-ghost{border:1px solid var(--border); background:#fff; color:#0f172a}
+    .hero-logo-badge{
+      position:absolute; left:50%; transform:translateX(-50%); bottom:26px;
+      background:#fff; padding:8px 12px; border:1px solid var(--border); border-radius:999px; display:flex; gap:8px; align-items:center;
+      box-shadow:0 10px 20px rgba(0,0,0,.06)
+    }
+    .hero-logo-badge img{height:22px;width:22px;border-radius:6px}
+
+    /* Floating spices (parallax) */
+    .spice{position:absolute; opacity:.18; filter:blur(.2px); user-select:none; pointer-events:none; will-change:transform}
+    .spice.s1{top:8%; left:6%; width:120px; animation:float 10s ease-in-out infinite alternate}
+    .spice.s2{top:12%; right:8%; width:100px; animation:float 12s 1.2s ease-in-out infinite alternate}
+    .spice.s3{bottom:12%; left:12%; width:140px; animation:float 13s .8s ease-in-out infinite alternate}
+    @keyframes float{from{transform:translateY(-10px) rotate(-4deg)} to{transform:translateY(10px) rotate(4deg)}}
+
+    /* Quick highlights ribbon */
+    .ribbon{overflow:hidden; border-block:1px solid var(--border); background:#fff}
+    .ribbon-track{display:flex;gap:28px;white-space:nowrap;animation:slide 22s linear infinite; padding:10px 0}
+    .chip{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:#f5fff6;border:1px solid #dceddf;color:#0f421f;font-weight:800}
+    @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+    /* Sections */
+    .section{max-width:1180px;margin:0 auto;padding:42px 18px}
+    .sec-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:12px}
+    .sec-head h2{margin:0;color:var(--green)}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    @media (max-width:980px){.grid{grid-template-columns:1fr 1fr}}
+    @media (max-width:640px){.grid{grid-template-columns:1fr}}
+    .card{background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 10px 26px rgba(0,0,0,.06);transition:transform .2s, box-shadow .2s}
+    .card:hover{transform:translateY(-3px); box-shadow:var(--glow)}
+    .thumb{height:220px; background:#f1f5f9; overflow:hidden}
+    .thumb img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transform:scale(1.05);transition:opacity .5s ease, transform .6s ease}
+    .thumb img.loaded{opacity:1;transform:scale(1)}
+    .body{padding:14px}
+    .title{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .title h3{margin:0;font-size:1.05rem}
+    .price{font-weight:900}
+    .desc{color:var(--muted);font-size:.95rem;margin:8px 0 12px}
+    .card-cta{display:flex;gap:10px}
+    .small{font-size:.92rem;font-weight:800}
+
+    /* Testimonials strip */
+    .testi{background:#0d2318;color:#f0fff5}
+    .testi .section{padding-block:36px}
+    .quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    @media (max-width:980px){.quotes{grid-template-columns:1fr 1fr}}
+    @media (max-width:640px){.quotes{grid-template-columns:1fr}}
+    .q{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:14px}
+    .q strong{display:block;margin-bottom:6px}
+
+    /* Footer */
+    footer{padding:26px 18px;text-align:center;color:#64748b}
+    .fade{opacity:0;transform:translateY(14px);transition:opacity .6s ease, transform .6s ease}
+    .fade.on{opacity:1;transform:none}
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="nav">
+      <a class="brand" href="index.html">
+        <img class="brand-logo" src="images/logo.jpeg" alt="Halal Fresh N Fast">
+        <span class="brand-text">Halal Fresh N Fast</span>
+      </a>
+      <nav class="nav-links">
+        <a href="menu.html">Menu</a>
+        <a href="order.html" class="order">Order Online</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <!-- floating spices/parallax -->
+    <img class="spice s1" src="images/garlic-parmesan-wings.jpg" alt="">
+    <img class="spice s2" src="images/bbq-wings.jpg" alt="">
+    <img class="spice s3" src="images/tandoori-chicken-leg.jpg" alt="">
+
+    <div class="hero-inner fade">
+      <div class="hero-badge">Halal • Fresh • Fast</div>
+      <h1 class="hero-title">Street-style flavor. <br/>Restaurant-grade care.</h1>
+      <p class="hero-sub">From sizzling platters to crunchy burgers and wraps — made fresh, served fast. Order online for pickup and we’ll have it ready.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="order.html">Order Online →</a>
+        <a class="btn btn-ghost" href="menu.html">View Full Menu</a>
+      </div>
+    </div>
+
+    <div class="hero-logo-badge">
+      <img src="images/logo.jpeg" alt="">
+      <strong>Certified Halal • Always Fresh</strong>
+    </div>
+  </section>
+
+  <!-- MOVING RIBBON -->
+  <div class="ribbon" aria-hidden="true">
+    <div class="ribbon-track">
+      <span class="chip">Fresh off the grill</span>
+      <span class="chip">Zinger heat you’ll love</span>
+      <span class="chip">Shawarma carved daily</span>
+      <span class="chip">Hand-cut fries</span>
+      <span class="chip">Signature white & hot sauce</span>
+      <span class="chip">In House made signature sauces</span>
+      <span class="chip">In House made Pizza Dough</span>
+
+      <!-- duplicated to loop seamlessly -->
+      <span class="chip">Fresh off the grill</span>
+      <span class="chip">Zinger heat you’ll love</span>
+      <span class="chip">Shawarma carved daily</span>
+      <span class="chip">Hand-cut fries</span>
+      <span class="chip">In House made signature sauces</span>
+      <span class="chip">In House made Pizza Dough</span>
+    </div>
+  </div>
+
+  <!-- FEATURED PLATTERS -->
+  <section class="section">
+    <div class="sec-head">
+      <h2>Signature Platters</h2>
+      <a class="small" href="menu.html">See all platters →</a>
+    </div>
+
+    <div class="grid">
+      <article class="card fade">
+        <div class="thumb"><img src="images/chicken-over-rice.png" alt="Chicken Over Rice"></div>
+        <div class="body">
+          <div class="title"><h3>Chicken Over Rice</h3><span class="price">$9.99</span></div>
+          <p class="desc">Juicy chicken over fragrant rice, salad, and sauces.</p>
+          <div class="card-cta">
+            <a class="btn btn-primary" href="order.html">Order</a>
+            <a class="btn btn-ghost" href="menu.html#rice">Details</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card fade">
+        <div class="thumb"><img src="images/lamb-over-rice.png" alt="Lamb Over Rice"></div>
+        <div class="body">
+          <div class="title"><h3>Lamb Over Rice</h3><span class="price">$10.99</span></div>
+          <p class="desc">Tender seasoned lamb over rice with house sauces.</p>
+          <div class="card-cta">
+            <a class="btn btn-primary" href="order.html">Order</a>
+            <a class="btn btn-ghost" href="menu.html#rice">Details</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card fade">
+        <div class="thumb"><img src="images/fish-over-rice.png" alt="Fish Over Rice"></div>
+        <div class="body">
+          <div class="title"><h3>Fish Over Rice</h3><span class="price">$9.99</span></div>
+          <p class="desc">Crispy fish fillet, fresh salad, with house sauces.</p>
+          <div class="card-cta">
+            <a class="btn btn-primary" href="order.html">Order</a>
+            <a class="btn btn-ghost" href="menu.html#rice">Details</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- WRAPS & BURGERS -->
+  <section class="section">
+    <div class="sec-head">
+      <h2>Wraps & Burgers</h2>
+      <a class="small" href="menu.html#wraps">Explore wraps & burgers →</a>
+    </div>
+    <div class="grid">
+      <article class="card fade">
+        <div class="thumb"><img src="images/chicken-and-lamb-shawarma.png" alt="Chicken & Lamb Shawarma"></div>
+        <div class="body">
+          <div class="title"><h3>Chicken & Lamb Shawarma</h3><span class="price">$7.99</span></div>
+          <p class="desc">Sliced, seared, wrapped with crunch & sauce.</p>
+          <div class="card-cta">
+            <a class="btn btn-primary" href="order.html">Order</a>
+            <a class="btn btn-ghost" href="menu.html#wraps">Details</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card fade">
+        <div class="thumb"><img src="images/beef-burger.jpg" alt="Beef Burger"></div>
+        <div class="body">
+          <div class="title"><h3>Beef Burger</h3><span class="price">$6.99</span></div>
+          <p class="desc">Juicy patty, melty cheese, toasted bun.</p>
+          <div class="card-cta">
+            <a class="btn btn-primary" href="order.html">Order</a>
+            <a class="btn btn-ghost" href="menu.html#burgers">Details</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card fade">
+        <div class="thumb"><img src="images/zinger-burger.jpg" alt="Zinger Burger"></div>
+        <div class="body">
+          <div class="title"><h3>Zinger Burger</h3><span class="price">$5.99</span></div>
+          <p class="desc">Spicy, crunchy chicken with kick.</p>
+          <div class="card-cta">
+            <a class="btn btn-primary" href="order.html">Order</a>
+            <a class="btn btn-ghost" href="menu.html#burgers">Details</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- WINGS & DRINKS -->
+  <section class="section">
+    <div class="sec-head">
+      <h2>Wings & Drinks</h2>
+      <a class="small" href="menu.html#wings">See flavors →</a>
+    </div>
+    <div class="grid">
+      <article class="card fade">
+        <div class="thumb"><img src="images/bbq-wings.jpg" alt="BBQ Wings"></div>
+        <div class="body">
+          <div class="title"><h3>BBQ Wings (5 pc)</h3><span class="price">$8.99</span></div>
+          <p class="desc">Smoky-sweet, sticky fingers guaranteed.</p>
+          <div class="card-cta">
+            <a class="btn btn-primary" href="order.html">Order</a>
+            <a class="btn btn-ghost" href="menu.html#wings">Details</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card fade">
+        <div class="thumb"><img src="images/garlic-parmesan-wings.jpg" alt="Garlic Parmesan Wings"></div>
+        <div class="body">
+          <div class="title"><h3>Garlic Parmesan Wings (5 pc)</h3><span class="price">$8.99</span></div>
+          <p class="desc">Buttery, garlicky, dusted with Parm.</p>
+          <div class="card-cta">
+            <a class="btn btn-primary" href="order.html">Order</a>
+            <a class="btn btn-ghost" href="menu.html#wings">Details</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card fade">
+        <div class="thumb"><img src="images/mango-lassi.webp" alt="Mango Lassi"></div>
+        <div class="body">
+          <div class="title"><h3>16 OZ Mango Lassi</h3><span class="price">$3.99</span></div>
+          <p class="desc">Cool, creamy, mango bliss.</p>
+          <div class="card-cta">
+            <a class="btn btn-primary" href="order.html">Order</a>
+            <a class="btn btn-ghost" href="menu.html#drinks">Details</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- DESSERTS & ICE CREAM (NEW) -->
+  <section class="section">
+    <div class="sec-head">
+      <h2>Desserts & Ice Cream</h2>
+      <a class="small" href="menu.html#dessert">See all desserts →</a>
+    </div>
+    <div class="grid">
+      <article class="card fade">
+        <div class="thumb"><img src="images/perrys-8oz.jpg" alt="Perry's Ice Cream (8 oz cup)"></div>
+        <div class="body">
+          <div class="title"><h3>Perry's Ice Cream (8 oz cup)</h3><span class="price">$4.99</span></div>
+          <p class="desc">Creamy Perry’s in a convenient 8 oz cup.</p>
+          <div class="card-cta">
+            <a class="btn btn-primary" href="order.html">Order</a>
+            <a class="btn btn-ghost" href="menu.html#dessert">Details</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card fade">
+        <div class="thumb"><img src="images/perrys-cone.jpg" alt="Perry's Cone"></div>
+        <div class="body">
+          <div class="title"><h3>Perry's Cone</h3><span class="price">$2.00</span></div>
+          <p class="desc">Classic cone — simple, sweet, satisfying.</p>
+          <div class="card-cta">
+            <a class="btn btn-primary" href="order.html">Order</a>
+            <a class="btn btn-ghost" href="menu.html#dessert">Details</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card fade">
+        <div class="thumb"><img src="images/gulab-jamun.jpg" alt="Gulab Jamun (3 pc)"></div>
+        <div class="body">
+          <div class="title"><h3>Gulab Jamun (3 pc)</h3><span class="price">$3.99</span></div>
+          <p class="desc">Warm milk-solid dumplings soaked in rose syrup.</p>
+          <div class="card-cta">
+            <a class="btn btn-primary" href="order.html">Order</a>
+            <a class="btn btn-ghost" href="menu.html#dessert">Details</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testi">
+    <div class="section">
+      <div class="sec-head" style="color:#d7ffe5"><h2>People are talking</h2></div>
+      <div class="quotes">
+        <div class="q fade"><strong>“Best chicken over rice in town.”</strong><span>– Aisha K.</span></div>
+        <div class="q fade"><strong>“Zinger burger? Unreal crunch.”</strong><span>– David M.</span></div>
+        <div class="q fade"><strong>“Fast pickup, still piping hot.”</strong><span>– Sam P.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    © <span id="yr"></span> Halal Fresh N Fast — All rights reserved.
+  </footer>
+
+  <script>
+    // Year
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    // Progressive image reveal
+    document.querySelectorAll('.thumb img').forEach(img=>{
+      if (img.complete) img.classList.add('loaded');
+      else img.addEventListener('load',()=>img.classList.add('loaded'));
+    });
+
+    // Scroll reveal
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target); }
+      });
+    },{threshold:.2});
+    document.querySelectorAll('.fade').forEach(el=>io.observe(el));
+
+    // Subtle pointer-based parallax on hero spices
+    const spices = document.querySelectorAll('.spice');
+    window.addEventListener('pointermove', e=>{
+      const { innerWidth:w, innerHeight:h } = window;
+      const rx = (e.clientX - w/2) / (w/2);
+      const ry = (e.clientY - h/2) / (h/2);
+      spices.forEach((s,i)=>{
+        const p = (i+1)*3; // different strengths
+        s.style.transform = `translate(${rx*p}px, ${ry*p}px)`;
+      });
+    });
+  </script>
+</body>
+</html>
